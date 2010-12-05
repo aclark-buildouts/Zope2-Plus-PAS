@@ -6,5 +6,6 @@ app.manage_delObjects('acl_users')
 app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
 transaction.commit()
 
-app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('ZODBUserManager')
+app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('users')
+app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('groups')
 transaction.commit()
