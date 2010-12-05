@@ -8,4 +8,5 @@ transaction.commit()
 
 app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('users')
 app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('groups')
+app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('roles')
 transaction.commit()
