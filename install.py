@@ -2,3 +2,4 @@
 
 app.manage_delObjects(app, 'acl_users')
 app.manage_addProduct['PluggableAuthService'].addPluggableAuthService
+app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('ZODBUserManager')
