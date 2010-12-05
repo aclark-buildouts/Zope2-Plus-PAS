@@ -2,7 +2,9 @@
 
 import transaction
 
-app.manage_delObjects(app, 'acl_users')
-app.manage_addProduct['PluggableAuthService'].addPluggableAuthService
+app.manage_delObjects('acl_users')
+app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
+transaction.commit()
+
 app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('ZODBUserManager')
 transaction.commit()
