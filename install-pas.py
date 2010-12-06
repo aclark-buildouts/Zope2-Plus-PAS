@@ -16,36 +16,42 @@ from Products.PluggableAuthService.interfaces.plugins import \
     IUserEnumerationPlugin
 
 
-def unignore_exceptions():
-    app.error_log.setProperties(0, '')
+def add_pas(app):
+    app.manage_delObjects('acl_users')
+    app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
 
 
 def install_plugins(uf):
     pas_factory = uf.manage_addProduct['PluggableAuthService']
 
-    # We need the user manager plugin to add a user
+    # We need the user manager to add a user
     pas_factory.addZODBUserManager('ZODBUserManager')
 
-    # We need the role manager plugin to add a user
+    # We need the role manager to add a user
     pas_factory.addZODBRoleManager('ZODBRoleManager')
 
     # We need the basic auth helper to do basic auth
     pas_factory.addHTTPBasicAuthHelper('HTTPBasicAuthHelper')
 
-app.manage_delObjects('acl_users')
-app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
-install_plugins(app.acl_users)
 
-# users
-app.acl_users.plugins.activatePlugin(IAuthenticationPlugin, 'ZODBUserManager')
-app.acl_users.plugins.activatePlugin(IUserAdderPlugin, 'ZODBUserManager')
-app.acl_users.plugins.activatePlugin(IUserEnumerationPlugin, 'ZODBUserManager')
+def activate_plugins(plugins):
+    # users
+    plugins.activatePlugin(IAuthenticationPlugin, 'ZODBUserManager')
+    plugins.activatePlugin(IUserAdderPlugin, 'ZODBUserManager')
+    plugins.activatePlugin(IUserEnumerationPlugin, 'ZODBUserManager')
 
-# roles
-app.acl_users.plugins.activatePlugin(IRoleAssignerPlugin, 'ZODBRoleManager')
-app.acl_users.plugins.activatePlugin(IRolesPlugin, 'ZODBRoleManager')
-app.acl_users.plugins.activatePlugin(IRoleEnumerationPlugin, 'ZODBRoleManager')
+    # roles
+    plugins.activatePlugin(IRoleAssignerPlugin, 'ZODBRoleManager')
+    plugins.activatePlugin(IRolesPlugin, 'ZODBRoleManager')
+    plugins.activatePlugin(IRoleEnumerationPlugin, 'ZODBRoleManager')
 
-# http auth
-app.acl_users.plugins.activatePlugin(IChallengePlugin, 'HTTPBasicAuthHelper')
-app.acl_users.plugins.activatePlugin(IExtractionPlugin, 'HTTPBasicAuthHelper')
+    # http auth
+    plugins.activatePlugin(IChallengePlugin, 'HTTPBasicAuthHelper')
+    plugins.activatePlugin(IExtractionPlugin, 'HTTPBasicAuthHelper')
+
+if __name__ == '__main__':
+    app = locals()['app']  # make pyflakes happy
+    add_pas(app)
+    install_plugins(app.acl_users)
+    activate_plugins(app.acl_users.plugins)
+    transaction.commit()
