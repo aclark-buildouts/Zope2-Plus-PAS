@@ -56,7 +56,7 @@ def update_index(index):
     <h1>Welcome to Zope 2!</h1>
     <ul>
     <li>
-    <a tal:attributes="href here">Admin</a>
+    <a href="/">Admin</a>
     </li>
     </ul>
     """
