@@ -7,7 +7,7 @@ from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
 
 def unignore_exceptions():
-    app.error_log.setProperties(0, None)
+    app.error_log.setProperties(0, '')
 
 def install_plugins(uf):
     pas_factory = uf.manage_addProduct['PluggableAuthService']
