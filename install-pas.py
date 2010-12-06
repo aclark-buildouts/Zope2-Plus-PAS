@@ -2,8 +2,12 @@
 
 import transaction
 
-from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
+from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
+from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
+
+def unignore_exceptions():
+    app.error_log.setProperties(0, None)
 
 def install_plugins(uf):
     pas_factory = uf.manage_addProduct['PluggableAuthService']
@@ -34,6 +38,8 @@ def install_plugins(uf):
 app.manage_delObjects('acl_users')
 app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
 install_plugins(app.acl_users)
-app.acl_users.plugins.activatePlugin(IUserAdderPlugin, 'ZODBUserManager')
+app.acl_users.plugins.activatePlugin(IAuthenticationPlugin, 'ZODBUserManager')
 app.acl_users.plugins.activatePlugin(IRoleAssignerPlugin, 'ZODBRoleManager')
+app.acl_users.plugins.activatePlugin(IUserAdderPlugin, 'ZODBUserManager')
+unignore_exceptions()
 transaction.commit()
