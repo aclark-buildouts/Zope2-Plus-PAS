@@ -28,7 +28,7 @@ def install_plugins(uf):
     # We need the user manager to add a user
     pas_factory.addZODBUserManager('ZODBUserManager')
 
-    # We need the role manager to add a user
+    # We need the role manager to add a role
     pas_factory.addZODBRoleManager('ZODBRoleManager')
 
     # We need the basic auth helper to do basic auth
