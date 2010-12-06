@@ -1,4 +1,4 @@
-# Run ``bin/zope2 run install-pas.py`` to replace the top level Zope 2
+# Run ``bin/zope2 run basic-auth.py`` to replace the top level Zope 2
 # acl_users with a PAS acl_users that does basic auth
 
 import transaction
@@ -31,8 +31,8 @@ def install_plugins(uf):
     # We need the role manager to add a role
     pas_factory.addZODBRoleManager('ZODBRoleManager')
 
-    # We need the basic auth helper to do basic auth
-    pas_factory.addHTTPBasicAuthHelper('HTTPBasicAuthHelper')
+    # We need the cookie auth helper to do basic auth
+    pas_factory.addCookieAuthHelper('CookieAuthHelper')
 
 
 def activate_plugins(plugins):
@@ -46,9 +46,9 @@ def activate_plugins(plugins):
     plugins.activatePlugin(IRolesPlugin, 'ZODBRoleManager')
     plugins.activatePlugin(IRoleEnumerationPlugin, 'ZODBRoleManager')
 
-    # http auth
-    plugins.activatePlugin(IChallengePlugin, 'HTTPBasicAuthHelper')
-    plugins.activatePlugin(IExtractionPlugin, 'HTTPBasicAuthHelper')
+    # cookie auth
+    plugins.activatePlugin(IChallengePlugin, 'CookieAuthHelper')
+    plugins.activatePlugin(IExtractionPlugin, 'CookieAuthHelper')
 
 
 def add_logo(app):
