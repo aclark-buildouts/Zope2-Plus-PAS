@@ -3,6 +3,8 @@
 import transaction
 
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
+from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
+from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
 
@@ -18,11 +20,13 @@ def install_plugins(uf):
     # We need the role manager plugin to add a user
     pas_factory.addZODBRoleManager('ZODBRoleManager')
 
+    # Wee need the basic auth helper to do basic auth
+    pas_factory.addHTTPBasicAuthHelper('HTTPBasicAuthHelper')
+    #pas_factory.addCookieAuthHelper('CookieAuthHelper')
+
     # The rest of these are optional
     #pas_factory.addZODBGroupManager('ZODBGroupManager')
-    #pas_factory.addCookieAuthHelper('CookieAuthHelper')
     #pas_factory.addDynamicGroupsPlugin('DynamicGroupsPlugin')
-    #pas_factory.addHTTPBasicAuthHelper('HTTPBasicAuthHelper')
     #pas_factory.addInlineAuthHelper('InlineAuthHelper')
     #pas_factory.addLocalRolePlugin('LocalRolePlugin')
     #pas_factory.addRecursiveGroupsPlugin('RecursiveGroupsPlugin')
@@ -41,5 +45,7 @@ install_plugins(app.acl_users)
 app.acl_users.plugins.activatePlugin(IAuthenticationPlugin, 'ZODBUserManager')
 app.acl_users.plugins.activatePlugin(IRoleAssignerPlugin, 'ZODBRoleManager')
 app.acl_users.plugins.activatePlugin(IUserAdderPlugin, 'ZODBUserManager')
+app.acl_users.plugins.activatePlugin(IChallengePlugin, 'HTTPBasicAuthHelper')
+app.acl_users.plugins.activatePlugin(IExtractionPlugin, 'HTTPBasicAuthHelper')
 unignore_exceptions()
 transaction.commit()
