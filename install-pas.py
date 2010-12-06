@@ -2,22 +2,29 @@
 
 import transaction
 
+
+def install_plugins(uf)
+    uf.manage_addProduct['PluggableAuthService'].addZODBUserManager('ZODBUserManager')
+    uf.manage_addProduct['PluggableAuthService'].addZODBGroupManager('ZODBGroupManager')
+    uf.manage_addProduct['PluggableAuthService'].addZODBRoleManager('ZODBRoleManager')
+    uf.manage_addProduct['PluggableAuthService'].addCookieAuthHelper('CookieAuthHelper')
+    #uf.manage_addProduct['PluggableAuthService'].addDelegatingMultiPlugin('DelegatingMultiPlugin')
+    #uf.manage_addProduct['PluggableAuthService'].addDomainAuthHelper('DomainAuthHelper')
+    uf.manage_addProduct['PluggableAuthService'].addDynamicGroupsPlugin('DynamicGroupsPlugin')
+    uf.manage_addProduct['PluggableAuthService'].addHTTPBasicAuthHelper('HTTPBasicAuthHelper')
+    uf.manage_addProduct['PluggableAuthService'].addInlineAuthHelper('InlineAuthHelper')
+    uf.manage_addProduct['PluggableAuthService'].addLocalRolePlugin('LocalRolePlugin')
+    uf.manage_addProduct['PluggableAuthService'].addRecursiveGroupsPlugin('RecursiveGroupsPlugin')
+    #uf.manage_addProduct['PluggableAuthService'].addRequestTypeSniffer('RequestTypeSniffer')
+    uf.manage_addProduct['PluggableAuthService'].addScriptablePlugin('ScriptablePlugin')
+    uf.manage_addProduct['PluggableAuthService'].addSearchPrincipalsPlugin('SearchPrincipalsPlugin')
+    #uf.manage_addProduct['PluggableAuthService'].addSessionAuthHelper('SessionAuthHelper')
+
 app.manage_delObjects('acl_users')
 app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
-app.acl_users.manage_addProduct['PluggableAuthService'].addZODBUserManager('ZODBUserManager')
-app.acl_users.manage_addProduct['PluggableAuthService'].addZODBGroupManager('ZODBGroupManager')
-app.acl_users.manage_addProduct['PluggableAuthService'].addZODBRoleManager('ZODBRoleManager')
-app.acl_users.manage_addProduct['PluggableAuthService'].addCookieAuthHelper('CookieAuthHelper')
-#app.acl_users.manage_addProduct['PluggableAuthService'].addDelegatingMultiPlugin('DelegatingMultiPlugin')
-#app.acl_users.manage_addProduct['PluggableAuthService'].addDomainAuthHelper('DomainAuthHelper')
-app.acl_users.manage_addProduct['PluggableAuthService'].addDynamicGroupsPlugin('DynamicGroupsPlugin')
-app.acl_users.manage_addProduct['PluggableAuthService'].addHTTPBasicAuthHelper('HTTPBasicAuthHelper')
-app.acl_users.manage_addProduct['PluggableAuthService'].addInlineAuthHelper('InlineAuthHelper')
-app.acl_users.manage_addProduct['PluggableAuthService'].addLocalRolePlugin('LocalRolePlugin')
-app.acl_users.manage_addProduct['PluggableAuthService'].addRecursiveGroupsPlugin('RecursiveGroupsPlugin')
-#app.acl_users.manage_addProduct['PluggableAuthService'].addRequestTypeSniffer('RequestTypeSniffer')
-app.acl_users.manage_addProduct['PluggableAuthService'].addScriptablePlugin('ScriptablePlugin')
-app.acl_users.manage_addProduct['PluggableAuthService'].addSearchPrincipalsPlugin('SearchPrincipalsPlugin')
-#app.acl_users.manage_addProduct['PluggableAuthService'].addSessionAuthHelper('SessionAuthHelper')
+
+install_plugins(app.acl_users)
+
+app.acl_users.ZODBUserManager.doAddUser('admin','admin')
 
 transaction.commit()
