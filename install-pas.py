@@ -51,12 +51,23 @@ def activate_plugins(plugins):
     plugins.activatePlugin(IExtractionPlugin, 'HTTPBasicAuthHelper')
 
 
+def add_logo(app):
+    fn = 'Vlogo250.gif'
+    logo = open(fn, 'rb').read()
+    app.manage_addProduct['Image'].manage_addImage(fn, logo)
+
+
 def update_index(index):
     update = """
+    <a tal:attributes="href here/absolute_url"><img
+        tal:attributes="src python: here.absolute_url() + '/Vlogo250.gif'"></a>
     <h1>Welcome to Zope 2!</h1>
     <ul>
     <li>
-    <a href="/">Admin</a>
+        <a href="http://docs.zope.org/#zope-2">Documentation</a>
+    </li>
+    <li>
+        <a tal:attributes="href python: here.absolute_url() + '/manage_main'">Administration</a>
     </li>
     </ul>
     """
@@ -68,5 +79,6 @@ if __name__ == '__main__':
     install_pas(app)
     install_plugins(app.acl_users)
     activate_plugins(app.acl_users.plugins)
+    add_logo(app)
     update_index(app.index_html)
     transaction.commit()
