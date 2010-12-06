@@ -1,5 +1,5 @@
-# Run ``bin/zope2 run install-pas.py`` to replace the top level Zope 2 acl_users with a PAS
-# acl_users that does basic auth
+# Run ``bin/zope2 run install-pas.py`` to replace the top level Zope 2
+# acl_users with a PAS acl_users that does basic auth
 
 import transaction
 
@@ -59,17 +59,18 @@ def add_logo(app):
 
 def update_index(index):
     update = """
-    <a tal:attributes="href here/absolute_url"><img
-        tal:attributes="src python: here.absolute_url() + '/Vlogo250.gif'"></a>
-    <h1>Welcome to Zope 2!</h1>
-    <ul>
-    <li>
-        <a href="http://docs.zope.org/#zope-2">Documentation</a>
-    </li>
-    <li>
-        <a tal:attributes="href python: here.absolute_url() + '/manage_main'">Administration</a>
-    </li>
-    </ul>
+<a tal:attributes="href here/absolute_url"><img
+    tal:attributes="src python: here.absolute_url() + '/Vlogo250.gif'"></a>
+<h1>Welcome to Zope 2!</h1>
+<ul>
+<li>
+    <a href="http://docs.zope.org/#zope-2">Documentation</a>
+</li>
+<li>
+    <a tal:attributes="href python: here.absolute_url() +
+        '/manage_main'">Administration</a>
+</li>
+</ul>
     """
     index.write(update)
 
