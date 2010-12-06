@@ -6,7 +6,10 @@ from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlug
 from Products.PluggableAuthService.interfaces.plugins import IChallengePlugin
 from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
+from Products.PluggableAuthService.interfaces.plugins import IRoleEnumerationPlugin
+from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
+from Products.PluggableAuthService.interfaces.plugins import IUserEnumerationPlugin
 
 def unignore_exceptions():
     app.error_log.setProperties(0, '')
@@ -20,8 +23,10 @@ def install_plugins(uf):
     # We need the role manager plugin to add a user
     pas_factory.addZODBRoleManager('ZODBRoleManager')
 
-    # Wee need the basic auth helper to do basic auth
+    # We need the basic auth helper to do basic auth
     pas_factory.addHTTPBasicAuthHelper('HTTPBasicAuthHelper')
+
+    # We need the cookie auth helper to do cookie auth
     #pas_factory.addCookieAuthHelper('CookieAuthHelper')
 
     # The rest of these are optional
@@ -42,10 +47,24 @@ def install_plugins(uf):
 app.manage_delObjects('acl_users')
 app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
 install_plugins(app.acl_users)
+
+# users
 app.acl_users.plugins.activatePlugin(IAuthenticationPlugin, 'ZODBUserManager')
-app.acl_users.plugins.activatePlugin(IRoleAssignerPlugin, 'ZODBRoleManager')
 app.acl_users.plugins.activatePlugin(IUserAdderPlugin, 'ZODBUserManager')
+app.acl_users.plugins.activatePlugin(IUserEnumerationPlugin, 'ZODBUserManager')
+
+# roles
+app.acl_users.plugins.activatePlugin(IRoleAssignerPlugin, 'ZODBRoleManager')
+app.acl_users.plugins.activatePlugin(IRolesPlugin, 'ZODBRoleManager')
+app.acl_users.plugins.activatePlugin(IRoleEnumerationPlugin, 'ZODBRoleManager')
+
+# http auth
 app.acl_users.plugins.activatePlugin(IChallengePlugin, 'HTTPBasicAuthHelper')
 app.acl_users.plugins.activatePlugin(IExtractionPlugin, 'HTTPBasicAuthHelper')
+
+#app.acl_users.plugins.activatePlugin(IChallengePlugin, 'CookieAuthHelper')
+#IRolesPluginapp.acl_users.plugins.activatePlugin(IExtractionPlugin, 'CookieAuthHelper')
+
 unignore_exceptions()
 transaction.commit()
+
