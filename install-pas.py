@@ -1,4 +1,5 @@
-# Run via bin/zope2 run install.py to replace top level acl_users with a PAS
+# Run ``bin/zope2 run install-pas.py`` to replace the top level Zope 2 acl_users with a PAS
+# acl_users that does basic auth
 
 import transaction
 
@@ -16,7 +17,7 @@ from Products.PluggableAuthService.interfaces.plugins import \
     IUserEnumerationPlugin
 
 
-def add_pas(app):
+def install_pas(app):
     app.manage_delObjects('acl_users')
     app.manage_addProduct['PluggableAuthService'].addPluggableAuthService()
 
@@ -51,7 +52,7 @@ def activate_plugins(plugins):
 
 if __name__ == '__main__':
     app = locals()['app']  # make pyflakes happy
-    add_pas(app)
+    install_pas(app)
     install_plugins(app.acl_users)
     activate_plugins(app.acl_users.plugins)
     transaction.commit()
