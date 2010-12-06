@@ -50,9 +50,23 @@ def activate_plugins(plugins):
     plugins.activatePlugin(IChallengePlugin, 'HTTPBasicAuthHelper')
     plugins.activatePlugin(IExtractionPlugin, 'HTTPBasicAuthHelper')
 
+
+def update_index(index):
+    update = """
+    <h1>Welcome to Zope 2!</h1>
+    <ul>
+    <li>
+    <a tal:attributes="href here/index_html">Login</a>
+    </li>
+    </ul>
+    """
+    index.write(update)
+
+
 if __name__ == '__main__':
     app = locals()['app']  # make pyflakes happy
     install_pas(app)
     install_plugins(app.acl_users)
     activate_plugins(app.acl_users.plugins)
+    update_index(app.index_html)
     transaction.commit()
