@@ -33,6 +33,7 @@ def install_plugins(uf):
 
     # We need the cookie auth helper to do basic auth
     pas_factory.addCookieAuthHelper('CookieAuthHelper')
+    uf.CookieAuthHelper.cookie_name = 'CookieAuthHelper'
 
 
 def activate_plugins(plugins):
